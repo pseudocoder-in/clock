@@ -4,6 +4,9 @@ import NoSleep from 'nosleep.js';
 import FlipClock from '../views/FlipClock';
 import styled from 'styled-components';
 import Switch from "react-switch";
+import IconButton from '@mui/material/IconButton';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 
 const TransparentButton = styled.button`
@@ -29,6 +32,7 @@ const Clock = () => {
         if (!document.fullscreenElement) {
           // Perform actions when leaving full-screen mode
           console.log('Left full-screen mode');
+          setIsFullscreen(false);
           // Add your callback logic here
         }
       };
@@ -87,13 +91,12 @@ const Clock = () => {
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <FlipClock scale={scale} incrementing = {incrementing} showSecond= {showSecond}/>
             </div>
-            <div style={{ position: 'fixed', bottom: '30px', right: '10px', display : 'flex' }}>
+            <div style={{ position: 'fixed', bottom: '30px', right: '30px', display : 'flex' , justifyContent: 'center', alignItems: 'center', gap:'30px'}}>
             { !isFullscreen && 
                 
-                <div style={{ display: 'flex'}} >
+                <div style={{ display: 'flex', gap:'30px'}} >
                 <div style={{ display: 'flex', flexDirection: 'column', color: 'white', fontSize: 'small'}}>
                 <Switch onChange={handleSecondToggle} checked={showSecond} checkedIcon={false} uncheckedIcon = {false} height={20} borderRadius={10} width={40}/>
-                <div> Seconds </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', color: 'white', fontSize: 'small'}}>
                 <input style={{background: 'transparent'}}
@@ -104,13 +107,13 @@ const Clock = () => {
                     onChange={handleChange}
                     onInput={handleChange}
                 />
-                <div> Scale </div>
                 </div>
                 </div>
             }
-            <TransparentButton onClick={toggleFullscreen}>
-                {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-            </TransparentButton>
+
+            <IconButton onClick={toggleFullscreen} color="primary" aria-label={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}>
+            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+            </IconButton>
             </div>
         </div>
     );
